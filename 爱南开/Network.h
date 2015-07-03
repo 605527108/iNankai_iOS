@@ -10,6 +10,7 @@
 
 
 #define TIME_OUT_INTERVAL 10
+#define LOGIN_SUCC_PAGE_DATA_LENGTH 1138
 
 
 
@@ -17,6 +18,14 @@
 @interface Network : NSObject
 
 + (NSURL *)URLforSignin;
+
++ (NSURL *)URLforTotalEvaluate;
+
++ (NSURL *)URLforChoose;
+
++ (NSURL *)URLforSingleEvaluate:(NSInteger)index;
+
++ (NSURL *)URLforPostEvaluate;
 
 + (NSURL *)URLforFetchImage;
 
@@ -30,9 +39,16 @@
 
 + (NSString *)HTTPBodyWithParameters:(NSDictionary *)parameters;
 
-+ (NSURLRequest *)HTTPGETRequestForURL:(NSURL *)url;
++ (NSMutableURLRequest *)HTTPGETRequestForURL:(NSURL *)url;
 
-+ (NSURLRequest *)HTTPPOSTRequestForURL:( NSURL *)url withParameters:( NSDictionary *)parameters;
++ (NSMutableURLRequest *)HTTPPOSTRequestForURL:(NSURL *)url withParameters:( NSDictionary *)parameters;
 
-+ (void)sendRequest:(NSURLRequest *)request withCompetionHandler:(void (^)(NSData *data,NSError *error))CompetionHandler;
++ (void)sendDataRequest:(NSURLRequest *)request withCompetionHandler:(void (^)(NSData *data,NSError *error))CompetionHandler;
+
++ (void)sendDownloadRequest:(NSURLRequest *)request withCompetionHandler:(void (^)(NSURL *location,NSError *error))CompetionHandler;
+
++ (BOOL)isOnline;
+
++ (BOOL)updateUserOnlineFlag;
+
 @end

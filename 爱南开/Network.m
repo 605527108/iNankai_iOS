@@ -7,12 +7,38 @@
 //
 
 #import "Network.h"
+#import "Reachability.h"
+
 
 @implementation Network
+
+
+#pragma mark - URL
 
 + (NSURL *)URLforSignin;
 {
     return [NSURL URLWithString:@"http://222.30.32.10/stdloginAction.do"];
+}
+
++ (NSURL *)URLforTotalEvaluate;
+{
+    return [NSURL URLWithString:@"http://222.30.32.10/evaluate/stdevatea/queryCourseAction.do"];
+}
+
++ (NSURL *)URLforSingleEvaluate:(NSInteger)index;
+{
+    NSString *url = [NSString stringWithFormat:@"http://222.30.32.10/evaluate/stdevatea/queryTargetAction.do?operation=target&index=%ld",(long)index];
+    return [NSURL URLWithString:url];
+}
+
++ (NSURL *)URLforChoose;
+{
+    return [NSURL URLWithString:@"http://222.30.32.10/xsxk/swichAction.do"];
+}
+
++ (NSURL *)URLforPostEvaluate;
+{
+    return [NSURL URLWithString:@"http://222.30.32.10/evaluate/stdevatea/queryTargetAction.do"];
 }
 
 + (NSURL *)URLforFetchImage;
@@ -40,7 +66,10 @@
     return [NSURL URLWithString:@"http://222.30.32.10/xsxk/selectedAction.do"];
 }
 
-+ (NSURLRequest *)HTTPGETRequestForURL:(NSURL *)url
+
+#pragma mark - build request
+
++ (NSMutableURLRequest *)HTTPGETRequestForURL:(NSURL *)url
 {
     NSMutableURLRequest *URLRequest = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy: NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:TIME_OUT_INTERVAL];
     [URLRequest setHTTPMethod: @"GET" ];
@@ -48,7 +77,7 @@
     return URLRequest;
 }
 
-+ (NSURLRequest *)HTTPPOSTRequestForURL:(NSURL *)url withParameters:(NSDictionary *)parameters
++ (NSMutableURLRequest *)HTTPPOSTRequestForURL:(NSURL *)url withParameters:(NSDictionary *)parameters
 {
     NSMutableURLRequest *URLRequest = [[ NSMutableURLRequest alloc ] initWithURL :url cachePolicy : NSURLRequestReloadIgnoringLocalCacheData timeoutInterval: TIME_OUT_INTERVAL ];
     NSString *HTTPBodyString = [self HTTPBodyWithParameters :parameters];
@@ -72,7 +101,9 @@
 
 
 
-+ (void)sendRequest:(NSURLRequest *)request withCompetionHandler:(void (^)(NSData *data,NSError *error))CompetionHandler;
+#pragma mark - send request
+
++ (void)sendDataRequest:(NSURLRequest *)request withCompetionHandler:(void (^)(NSData *data,NSError *error))CompetionHandler;
 {
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -87,14 +118,62 @@
             }
             else
             {
-                NSError *jsonError;
-                NSDictionary *errorDict = [NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)NSJSONReadingAllowFragments error:&jsonError];
-                NSError *responseError = [[NSError alloc] initWithDomain:@"NetworkError" code:httpResponse.statusCode userInfo:errorDict];
-                CompetionHandler(data, responseError);
+                NSError *statusError = [[NSError alloc] initWithDomain:@"statusCodeNotEqualTo200" code:httpResponse.statusCode userInfo:httpResponse.allHeaderFields];
+                CompetionHandler(nil,statusError);
             }
         }
     }];
     [task resume];
+}
+
++ (void)sendDownloadRequest:(NSURLRequest *)request withCompetionHandler:(void (^)(NSURL *location,NSError *error))CompetionHandler;
+{
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDownloadTask *task = [session downloadTaskWithRequest:request completionHandler:^(NSURL *location, NSURLResponse *response, NSError *error) {
+        if (error) {
+            CompetionHandler(nil,error);
+        }
+        else
+        {
+            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+            if (httpResponse.statusCode == 200) {
+                CompetionHandler(location,nil);
+            }
+            else
+            {
+                NSError *statusError = [[NSError alloc] initWithDomain:@"statusCodeNotEqualTo200" code:httpResponse.statusCode userInfo:httpResponse.allHeaderFields];
+                CompetionHandler(nil,statusError);
+            }
+        }
+    }];
+    [task resume];
+}
+
+
+#pragma mark - update flag
+
++ (BOOL)updateUserOnlineFlag
+{
+    Reachability *wifi = [Reachability reachabilityForLocalWiFi];
+    Reachability *conn = [Reachability reachabilityForInternetConnection];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:@"online" forKey:@"online"];
+    [defaults synchronize];
+    
+    if (([wifi currentReachabilityStatus] != NotReachable) &&([conn currentReachabilityStatus] != NotReachable)) {
+        [defaults setObject:@"online" forKey:@"online"];
+        [defaults synchronize];
+        return YES;
+    }
+    [defaults setObject:@"offline" forKey:@"online"];
+    [defaults synchronize];
+    return NO;
+   
+}
+
++ (BOOL)isOnline
+{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"online"]==nil;
 }
 
 @end

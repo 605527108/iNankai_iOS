@@ -10,6 +10,7 @@
 #import "HistoryTableViewCell.h"
 #import "LoginViewController.h"
 #import "LogoutViewController.h"
+#import "Login.h"
 
 @interface HistoryCourseCDTVC ()
 
@@ -22,7 +23,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userLoggedIn"]==nil) {
+    if (![Login isLogin]) {
         LoginViewController *loginController = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
         loginController.managedObjectContext = self.managedObjectContext;
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -53,6 +54,18 @@
     History *course = [self.fetchedResultsController objectAtIndexPath:indexPath];
     [cell updateUI:course.name withCredit:course.credit withScore:course.score withType:course.type];
     return cell;
+}
+
+
+- (IBAction)refresh:(UIBarButtonItem *)sender {
+    [Login logout:self.managedObjectContext];
+    LoginViewController *loginController = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    loginController.managedObjectContext = self.managedObjectContext;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.navigationController presentViewController:loginController animated:true completion:^{
+            [self performFetch];
+        }];
+    });
 }
 
 #pragma mark - Navigation

@@ -9,22 +9,40 @@
 #import "CurrentCourseViewController.h"
 #import "LoginViewController.h"
 #import "Current.h"
+#import "Login.h"
 
-@interface CurrentCourseViewController ()
+@interface CurrentCourseViewController () <UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *courseBoard;
 @property (strong,nonatomic) NSArray *courses;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @end
 
 @implementation CurrentCourseViewController
 
+- (void)setScrollView:(UIScrollView *)scrollView
+{
+    _scrollView = scrollView;
+    _scrollView.minimumZoomScale = 0.5;
+    _scrollView.maximumZoomScale = 1.0;
+    _scrollView.delegate = self;
+    //w826 h705
+}
+
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
+{
+    return self.courseBoard;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.scrollView.zoomScale = 1.0;
+    self.scrollView.contentSize = CGRectMake(0, 0, 826, 705).size;
     UIImage *background = [UIImage imageNamed:@"timetable_bg.png"];
     self.view.backgroundColor = [UIColor colorWithPatternImage:background];
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userLoggedIn"]==nil) {
+    if (![Login isLogin]) {
         LoginViewController *loginController = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
         loginController.managedObjectContext = self.managedObjectContext;
         [self.navigationController presentViewController:loginController animated:true completion:nil];
@@ -83,6 +101,17 @@
             courseLabel.backgroundColor = [UIColor colorWithPatternImage:background];
         }
     }
+}
+
+- (IBAction)tapRefresh:(UIBarButtonItem *)sender {
+    [Login logout:self.managedObjectContext];
+    LoginViewController *loginController = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    loginController.managedObjectContext = self.managedObjectContext;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.navigationController presentViewController:loginController animated:true completion:^{
+            [self loadCourses];
+        }];
+    });
 }
 
 @end

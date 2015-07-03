@@ -35,6 +35,11 @@
 		F62FBF6C1AEE2B5C00ACE831 /* History.m in Sources */ = {isa = PBXBuildFile; fileRef = F62FBF641AEE2B5C00ACE831 /* History.m */; };
 		F62FBF6D1AEE2B5C00ACE831 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = F62FBF661AEE2B5C00ACE831 /* User.m */; };
 		F62FBF6E1AEE2B5C00ACE831 /* User+Database.m in Sources */ = {isa = PBXBuildFile; fileRef = F62FBF681AEE2B5C00ACE831 /* User+Database.m */; };
+		F6929DA61AF21F3F003311CB /* Login.m in Sources */ = {isa = PBXBuildFile; fileRef = F6929DA51AF21F3F003311CB /* Login.m */; };
+		F6929DA91AF24C99003311CB /* FetchHistoryCourse.m in Sources */ = {isa = PBXBuildFile; fileRef = F6929DA81AF24C99003311CB /* FetchHistoryCourse.m */; };
+		F6929DAC1AF24EF2003311CB /* FetchCurrentCourse.m in Sources */ = {isa = PBXBuildFile; fileRef = F6929DAB1AF24EF2003311CB /* FetchCurrentCourse.m */; };
+		F6929DAF1AF250A3003311CB /* ShopCourse.m in Sources */ = {isa = PBXBuildFile; fileRef = F6929DAE1AF250A3003311CB /* ShopCourse.m */; };
+		F6929DB21AF253F8003311CB /* PostChooseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F6929DB11AF253F8003311CB /* PostChooseViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +107,16 @@
 		F62FBF661AEE2B5C00ACE831 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		F62FBF671AEE2B5C00ACE831 /* User+Database.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "User+Database.h"; sourceTree = "<group>"; };
 		F62FBF681AEE2B5C00ACE831 /* User+Database.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "User+Database.m"; sourceTree = "<group>"; };
+		F6929DA41AF21F3F003311CB /* Login.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Login.h; sourceTree = "<group>"; };
+		F6929DA51AF21F3F003311CB /* Login.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Login.m; sourceTree = "<group>"; };
+		F6929DA71AF24C99003311CB /* FetchHistoryCourse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FetchHistoryCourse.h; sourceTree = "<group>"; };
+		F6929DA81AF24C99003311CB /* FetchHistoryCourse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FetchHistoryCourse.m; sourceTree = "<group>"; };
+		F6929DAA1AF24EF2003311CB /* FetchCurrentCourse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FetchCurrentCourse.h; sourceTree = "<group>"; };
+		F6929DAB1AF24EF2003311CB /* FetchCurrentCourse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FetchCurrentCourse.m; sourceTree = "<group>"; };
+		F6929DAD1AF250A3003311CB /* ShopCourse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopCourse.h; sourceTree = "<group>"; };
+		F6929DAE1AF250A3003311CB /* ShopCourse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopCourse.m; sourceTree = "<group>"; };
+		F6929DB01AF253F8003311CB /* PostChooseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostChooseViewController.h; sourceTree = "<group>"; };
+		F6929DB11AF253F8003311CB /* PostChooseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostChooseViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,14 +158,10 @@
 		F62FBF021AEE28DB00ACE831 /* 爱南开 */ = {
 			isa = PBXGroup;
 			children = (
-				F62FBF2C1AEE2AE000ACE831 /* Network.h */,
-				F62FBF2D1AEE2AE000ACE831 /* Network.m */,
 				F62FBF2E1AEE2AE000ACE831 /* AppDelegate.h */,
 				F62FBF2F1AEE2AE000ACE831 /* AppDelegate.m */,
-				F62FBF301AEE2AE000ACE831 /* Reachability.h */,
-				F62FBF311AEE2AE000ACE831 /* Reachability.m */,
-				F62FBF351AEE2B2500ACE831 /* RandomViewController.h */,
-				F62FBF361AEE2B2500ACE831 /* RandomViewController.m */,
+				F6929DA31AF21DDA003311CB /* ServiceProvider */,
+				F6929DA21AF21C93003311CB /* ViewComponent */,
 				F62FBF6F1AEE2B8000ACE831 /* Model */,
 				F62FBF5C1AEE2B3500ACE831 /* Controller */,
 				F62FBF101AEE28DB00ACE831 /* Main.storyboard */,
@@ -191,6 +202,8 @@
 		F62FBF5C1AEE2B3500ACE831 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				F62FBF351AEE2B2500ACE831 /* RandomViewController.h */,
+				F62FBF361AEE2B2500ACE831 /* RandomViewController.m */,
 				F62FBF371AEE2B2500ACE831 /* HistoryCourseCDTVC.h */,
 				F62FBF381AEE2B2500ACE831 /* HistoryCourseCDTVC.m */,
 				F62FBF391AEE2B2500ACE831 /* AskViewController.h */,
@@ -203,10 +216,10 @@
 				F62FBF401AEE2B2500ACE831 /* CalendarViewController.m */,
 				F62FBF411AEE2B2500ACE831 /* WeatherViewController.h */,
 				F62FBF421AEE2B2500ACE831 /* WeatherViewController.m */,
-				F62FBF431AEE2B2500ACE831 /* HistoryTableViewCell.h */,
-				F62FBF441AEE2B2500ACE831 /* HistoryTableViewCell.m */,
 				F62FBF451AEE2B2500ACE831 /* CurrentCourseViewController.h */,
 				F62FBF461AEE2B2500ACE831 /* CurrentCourseViewController.m */,
+				F6929DB01AF253F8003311CB /* PostChooseViewController.h */,
+				F6929DB11AF253F8003311CB /* PostChooseViewController.m */,
 				F62FBF471AEE2B2500ACE831 /* MasterViewController.h */,
 				F62FBF481AEE2B2500ACE831 /* MasterViewController.m */,
 				F62FBF491AEE2B2500ACE831 /* LogoutViewController.h */,
@@ -236,6 +249,34 @@
 				F62FBF681AEE2B5C00ACE831 /* User+Database.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		F6929DA21AF21C93003311CB /* ViewComponent */ = {
+			isa = PBXGroup;
+			children = (
+				F62FBF431AEE2B2500ACE831 /* HistoryTableViewCell.h */,
+				F62FBF441AEE2B2500ACE831 /* HistoryTableViewCell.m */,
+			);
+			name = ViewComponent;
+			sourceTree = "<group>";
+		};
+		F6929DA31AF21DDA003311CB /* ServiceProvider */ = {
+			isa = PBXGroup;
+			children = (
+				F6929DA71AF24C99003311CB /* FetchHistoryCourse.h */,
+				F6929DA81AF24C99003311CB /* FetchHistoryCourse.m */,
+				F6929DAA1AF24EF2003311CB /* FetchCurrentCourse.h */,
+				F6929DAB1AF24EF2003311CB /* FetchCurrentCourse.m */,
+				F6929DAD1AF250A3003311CB /* ShopCourse.h */,
+				F6929DAE1AF250A3003311CB /* ShopCourse.m */,
+				F62FBF2C1AEE2AE000ACE831 /* Network.h */,
+				F62FBF2D1AEE2AE000ACE831 /* Network.m */,
+				F62FBF301AEE2AE000ACE831 /* Reachability.h */,
+				F62FBF311AEE2AE000ACE831 /* Reachability.m */,
+				F6929DA41AF21F3F003311CB /* Login.h */,
+				F6929DA51AF21F3F003311CB /* Login.m */,
+			);
+			name = ServiceProvider;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -340,10 +381,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				F62FBF6A1AEE2B5C00ACE831 /* Current+Network.m in Sources */,
+				F6929DB21AF253F8003311CB /* PostChooseViewController.m in Sources */,
 				F62FBF6E1AEE2B5C00ACE831 /* User+Database.m in Sources */,
+				F6929DAF1AF250A3003311CB /* ShopCourse.m in Sources */,
 				F62FBF331AEE2AE000ACE831 /* AppDelegate.m in Sources */,
 				F62FBF551AEE2B2500ACE831 /* WeatherViewController.m in Sources */,
 				F62FBF5B1AEE2B2500ACE831 /* CoreDataTableViewController.m in Sources */,
+				F6929DA61AF21F3F003311CB /* Login.m in Sources */,
 				F62FBF521AEE2B2500ACE831 /* NoticeViewController.m in Sources */,
 				F62FBF4F1AEE2B2500ACE831 /* RandomViewController.m in Sources */,
 				F62FBF061AEE28DB00ACE831 /* main.m in Sources */,
@@ -356,12 +400,14 @@
 				F62FBF501AEE2B2500ACE831 /* HistoryCourseCDTVC.m in Sources */,
 				F62FBF591AEE2B2500ACE831 /* LogoutViewController.m in Sources */,
 				F62FBF531AEE2B2500ACE831 /* NewsViewController.m in Sources */,
+				F6929DA91AF24C99003311CB /* FetchHistoryCourse.m in Sources */,
 				F62FBF0C1AEE28DB00ACE831 /* ___.xcdatamodeld in Sources */,
 				F62FBF6C1AEE2B5C00ACE831 /* History.m in Sources */,
 				F62FBF341AEE2AE000ACE831 /* Reachability.m in Sources */,
 				F62FBF561AEE2B2500ACE831 /* HistoryTableViewCell.m in Sources */,
 				F62FBF541AEE2B2500ACE831 /* CalendarViewController.m in Sources */,
 				F62FBF6B1AEE2B5C00ACE831 /* History+Network.m in Sources */,
+				F6929DAC1AF24EF2003311CB /* FetchCurrentCourse.m in Sources */,
 				F62FBF691AEE2B5C00ACE831 /* Current.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -440,7 +486,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -478,7 +524,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -490,9 +536,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: MUXIN LIU (FT5MJFB6J6)";
 				INFOPLIST_FILE = "爱南开/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -503,9 +549,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: MUXIN LIU (FT5MJFB6J6)";
 				INFOPLIST_FILE = "爱南开/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;

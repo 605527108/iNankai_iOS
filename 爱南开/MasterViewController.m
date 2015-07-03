@@ -14,9 +14,11 @@
 #import "LogoutViewController.h"
 #import "RandomViewController.h"
 #import "Reachability.h"
+#import "PostChooseViewController.h"
+#import "Login.h"
 
 
-@interface MasterViewController () <UIAlertViewDelegate>
+@interface MasterViewController ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (strong ,nonatomic) NSTimer *imageTimer;
@@ -34,11 +36,16 @@
     self.imageView.contentMode = UIViewContentModeScaleAspectFill;
     self.imageView.image = [UIImage imageNamed:@"nankai_default"];
     
-    Reachability *wifi = [Reachability reachabilityForLocalWiFi];
-    Reachability *conn = [Reachability reachabilityForInternetConnection];
-    if (([wifi currentReachabilityStatus] != NotReachable) &&([conn currentReachabilityStatus] != NotReachable)) {
+    if ([Network updateUserOnlineFlag]) {
         [self fetchImage];
     }
+    UISwipeGestureRecognizer *recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
+    [recognizer setDirection:UISwipeGestureRecognizerDirectionLeft];
+    [[self view] addGestureRecognizer:recognizer];
+    
+    recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
+    [recognizer setDirection:UISwipeGestureRecognizerDirectionRight];
+    [[self view] addGestureRecognizer:recognizer];
 }
 
 
@@ -48,26 +55,58 @@
     }
 }
 
+- (void)handleSwipeFrom:(UISwipeGestureRecognizer *)gesture
+{
+    if ([self.imageDatas count]>0) {
+        if (gesture.direction == UISwipeGestureRecognizerDirectionLeft) {
+            self.currentImageID = (self.currentImageID+1) % [self.imageDatas count];
+            [self animationImage:self.currentImageID directionBack:NO];
+            [self timerImage];
+        } else if(gesture.direction == UISwipeGestureRecognizerDirectionRight) {
+            self.currentImageID = (self.currentImageID+[self.imageDatas count]-1) % [self.imageDatas count];
+            [self animationImage:self.currentImageID directionBack:YES];
+            [self timerImage];
+        }
+    }
+}
+
+- (void)timerImage
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.imageTimer invalidate];
+        self.imageTimer = nil;
+        if ([self.imageDatas count]>0) {
+            self.imageTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(timerImageRight:) userInfo:nil repeats:YES];
+        }
+    });
+}
+
+- (void)timerImageRight:(NSTimer *)timer
+{
+    self.currentImageID = (self.currentImageID+1) % [self.imageDatas count];
+    [self animationImage:self.currentImageID directionBack:NO];
+}
 
 - (void)displayImage
 {
     self.currentImageID = 0;
     dispatch_async(dispatch_get_main_queue(), ^{
         self.imageView.image = [self.imageDatas[self.currentImageID] objectForKey:@"image"];
-        [self.imageTimer invalidate];
-        self.imageTimer = nil;
-        if ([self.imageDatas count]>0) {
-            self.imageTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(changeImage:) userInfo:nil repeats:YES];
-        }
+        [self timerImage];
     });
-    
 }
 
-- (void)changeImage:(NSTimer *)timer
+- (void)animationImage:(NSInteger)imageID directionBack:(BOOL)trueOrFalse
 {
-    self.currentImageID = (self.currentImageID+1) % [self.imageDatas count];
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.imageView.image = [self.imageDatas[self.currentImageID] objectForKey:@"image"];
+        [UIView transitionWithView:self.imageView
+                          duration:0.5
+                           options:(trueOrFalse? UIViewAnimationOptionTransitionFlipFromLeft:UIViewAnimationOptionTransitionFlipFromRight)
+                        animations:^{
+                            self.imageView.image = [self.imageDatas[imageID] objectForKey:@"image"];
+                            NSLog(@"%ld",(long)imageID);
+                        }
+                        completion:nil];
     });
 }
 
@@ -101,8 +140,6 @@
             rvc.urlString = @"http://ievent.nankai.edu.cn";
         } else if ([segue.identifier isEqualToString:@"Show Comment"]) {
             rvc.urlString = @"http://inankai.cn/iclass-app/index.php";
-        } else if ([segue.identifier isEqualToString:@"Show BBS"]) {
-            rvc.urlString = @"http://bbs.nankai.edu.cn";
         } else if ([segue.identifier isEqualToString:@"Show Ask"]) {
             rvc.urlString = @"http://ask.nankai.edu.cn";
         } else if ([segue.identifier isEqualToString:@"Show Phone"]) {
@@ -113,18 +150,23 @@
             rvc.urlString = @"http://career.nankai.edu.cn/index.php/corpinternmsg/index/type/2";
         }
     }
+    else if([segue.destinationViewController isKindOfClass:[PostChooseViewController class]]) {
+        PostChooseViewController *pvc = (PostChooseViewController *)segue.destinationViewController;
+        pvc.managedObjectContext = self.managedObjectContext;
+        pvc.title = segue.identifier;
+    }
 }
 
 
 - (IBAction)infoButton:(UIBarButtonItem *)sender {
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userLoggedIn"]==nil) {
-        LoginViewController *loginViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
-        loginViewController.managedObjectContext = self.managedObjectContext;
-        [self.navigationController presentViewController:loginViewController animated:true completion:nil];
-    } else {
+    if ([Login isLogin]) {
         LogoutViewController *logoutViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"LogoutViewController"];
         logoutViewController.managedObjectContext = self.managedObjectContext;
         [self.navigationController presentViewController:logoutViewController animated:true completion:nil];
+    } else {
+        LoginViewController *loginViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+        loginViewController.managedObjectContext = self.managedObjectContext;
+        [self.navigationController presentViewController:loginViewController animated:true completion:nil];
     }
 }
 

@@ -13,4 +13,6 @@
 + (Current *)courseIntoDatabase:(NSDictionary *)courseDictionary
          inManagedObjectContext:(NSManagedObjectContext *)context;
 
++ (void)loadCoursesFromArray:(NSArray *)courses intoManagedObjectContext:(NSManagedObjectContext *)context;
+
 @end

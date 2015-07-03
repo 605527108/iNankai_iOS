@@ -25,26 +25,7 @@
 - (void)setCourse:(History *)course
 {
     self.course = course;
-    NSLog(@"%@",course);
-//    [self updateUI];
 }
-
-//- (void)updateUI
-//{
-//    float score = [self.course.score floatValue];
-//    if (score>=60) {
-//        self.coursePass.image =[UIImage imageNamed:@"history_pass"];
-//    } else {
-//        self.coursePass.image = [UIImage imageNamed:@"history_no_pass"];
-//    }
-//    self.courseImage.image = [UIImage imageNamed:[NSString stringWithFormat:@"history_%@",self.course.type]];
-//    
-//    
-//    self.courseName.text = self.course.name;
-//    self.courseCredit.text = self.course.credit;
-//    self.courseScore.text = self.course.score;
-//    self.courseType.text = self.course.type;
-//}
 
 - (void)updateUI:(NSString *)name withCredit:(NSString *)credit withScore:(NSString *)score withType:(NSString *)type
 {
@@ -67,10 +48,10 @@
     self.courseCredit.text = credit;
     self.courseScore.text = score;
     self.courseType.text = type;
-    NSLog(@"%@",score);
-    if ([score floatValue]>=60 || [score rangeOfString:@"通过"].length > 0) {
+    if ([score floatValue]>=60 || [score rangeOfString:@"通过"].length > 0||[score rangeOfString:@"未评价"].length > 0) {
         self.coursePass.image =[UIImage imageNamed:@"history_pass"];
-    } else {
+    }
+    else {
         self.coursePass.image = [UIImage imageNamed:@"history_no_pass"];
     }
     self.courseImage.image = [UIImage imageNamed:imageName];

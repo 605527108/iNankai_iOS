@@ -8,45 +8,26 @@
 
 #import "LogoutViewController.h"
 #import <CoreData/CoreData.h>
+#import "Login.h"
 
 @interface LogoutViewController ()
 
+@property (weak, nonatomic) IBOutlet UILabel *number;
 
 @end
 
 @implementation LogoutViewController
 
-
-- (IBAction)logout {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults removeObjectForKey:@"userLoggedIn"];
-    [defaults synchronize];
-    [self deleteData:@"History"];
-    [self deleteData:@"Current"];
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.number.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"studentID"];
 }
 
--(void)deleteData:(NSString *)TableName
-{
-    NSManagedObjectContext *context = [self managedObjectContext];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:TableName inManagedObjectContext:context];
-    
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    [request setIncludesPropertyValues:NO];
-    [request setEntity:entity];
-    NSError *error = nil;
-    NSArray *datas = [context executeFetchRequest:request error:&error];
-    if (!error && datas && [datas count])
-    {
-        for (NSManagedObject *obj in datas)
-        {
-            [context deleteObject:obj];
-        }
-        if (![context save:&error])
-        {
-            NSLog(@"error:%@",error);
-        }
-    }
+
+- (IBAction)logout {
+    [Login logout:self.managedObjectContext];
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (IBAction)cancel {

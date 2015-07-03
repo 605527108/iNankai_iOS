@@ -49,7 +49,7 @@
 {
     NSURL *url = [NSURL URLWithString:@"http://api.openweathermap.org/data/2.5/forecast?lat=39.14&lon=117.18"];
     NSURLRequest *request = [Network HTTPGETRequestForURL:url];
-    [Network sendRequest:request withCompetionHandler:^(NSData *data, NSError *error) {
+    [Network sendDataRequest:request withCompetionHandler:^(NSData *data, NSError *error) {
         if (error) {
             [self alert:[NSString stringWithFormat:@"%@",[error userInfo]]];
         }

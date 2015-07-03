@@ -41,4 +41,11 @@
     return course;
 }
 
++ (void)loadCoursesFromArray:(NSArray *)courses intoManagedObjectContext:(NSManagedObjectContext *)context
+{
+    for (NSDictionary *course in courses) {
+        [self courseIntoDatabase:course inManagedObjectContext:context];
+    }
+}
+
 @end

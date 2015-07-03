@@ -60,7 +60,6 @@
         
         if (!store)
         {
-            // Also inform the user...
             NSLog(@"Failed to create persistent store. Error %@. Delete error %@",error,deleteError);
             abort();
         }

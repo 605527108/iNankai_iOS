@@ -11,5 +11,6 @@
 @interface LoginViewController : UIViewController
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic ,strong) NSString *whereWeFrom;
 
 @end
