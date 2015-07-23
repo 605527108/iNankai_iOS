@@ -25,11 +25,14 @@
         }
         else
         {
+            NSLog(@"enter");
             if ([self analyseContent:managedObjectContext withData:data]) {
 //                info = [[NSDictionary alloc] initWithObjectsAndKeys:@"yes",@"success",nil,@"error",nil];
             }
             else
             {
+                NSLog(@"enter else");
+
 //                info = [[NSDictionary alloc] initWithObjectsAndKeys:nil,@"success",[error localizedDescription],@"error",nil];
             }
         }
@@ -56,7 +59,7 @@
             NSTextCheckingResult *match = [regex firstMatchInString:temp options:0 range:NSMakeRange(0, [temp length])];
             NSRange firstHalfRange = [match rangeAtIndex:1];
             NSInteger pages = [[temp substringWithRange:firstHalfRange] integerValue];
-            NSLog(@"current: %ld",(long)pages);
+            [self analyseContent:managedObjectContext withData:data];
             for (NSInteger i=1; i<pages; i++) {
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                     [self fetchCurrentCourse:managedObjectContext];
@@ -80,6 +83,7 @@
     
     NSArray *matches = [regex matchesInString:temp options:0 range:NSMakeRange(0, [temp length])];
     NSInteger bound = [matches count];
+    NSLog(@"currentbbb %ld",(long)bound);
     NSMutableArray *courses = [[NSMutableArray alloc] init];
     NSInteger flag = 0;
     for (NSInteger i=1; i*13+9<bound; i++) {

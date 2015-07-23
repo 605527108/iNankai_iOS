@@ -76,11 +76,10 @@
     NSError *error;
     self.courses = [self.managedObjectContext executeFetchRequest:request error:&error];
     if (self.courses != nil) {
-        NSUInteger count = [self.courses count]; // May be 0 if the object has been deleted.
-        NSLog(@"%lu",(unsigned long)count);
+        NSUInteger count = [self.courses count];
+        NSLog(@"current:%lu",(unsigned long)count);
     }
     else {
-        // Deal with error.
         NSLog(@"%@",error.userInfo);
     }
     for (Current *course in self.courses) {
@@ -104,13 +103,10 @@
 }
 
 - (IBAction)tapRefresh:(UIBarButtonItem *)sender {
-    [Login logout:self.managedObjectContext];
     LoginViewController *loginController = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
     loginController.managedObjectContext = self.managedObjectContext;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.navigationController presentViewController:loginController animated:true completion:^{
-            [self loadCourses];
-        }];
+        [self.navigationController presentViewController:loginController animated:true completion:nil];
     });
 }
 

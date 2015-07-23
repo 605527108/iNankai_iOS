@@ -58,13 +58,10 @@
 
 
 - (IBAction)refresh:(UIBarButtonItem *)sender {
-    [Login logout:self.managedObjectContext];
     LoginViewController *loginController = [self.storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
     loginController.managedObjectContext = self.managedObjectContext;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.navigationController presentViewController:loginController animated:true completion:^{
-            [self performFetch];
-        }];
+        [self.navigationController presentViewController:loginController animated:true completion:nil];
     });
 }
 

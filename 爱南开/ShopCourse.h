@@ -12,6 +12,8 @@
 
 @property (nonatomic,strong) NSDictionary *parameters;
 
-+ (void)postChoose:(NSDictionary *)parameters;
++ (void)postChoose:(NSDictionary *)parameters withContinue:(BOOL)continueOrNot;
+
++ (BOOL)fetchSomePage;
 
 @end

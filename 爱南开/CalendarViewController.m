@@ -14,7 +14,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *calendarImage;
 @property (nonatomic ,strong) NSString *swipeGestureRecognizerDirection;
 @property (nonatomic ,strong) NSString *month;
-
+@property(nonatomic, strong) id calendarObserver;
 
 @end
 
@@ -38,15 +38,22 @@
     [[self view] addGestureRecognizer:recognizer];
 }
 
-- (void)awakeFromNib
+- (void)viewWillAppear:(BOOL)animated
 {
-    [[NSNotificationCenter defaultCenter] addObserverForName:@"calendar"
+    [super viewWillAppear:animated];
+    self.calendarObserver = [[NSNotificationCenter defaultCenter] addObserverForName:@"calendar"
                                                       object:nil
                                                        queue:nil
                                                   usingBlock:^(NSNotification *note) {
                                                       NSDictionary *info = [note userInfo];
                                                       [self handleImage:info withDirection:self.swipeGestureRecognizerDirection];
                                                   }];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.calendarObserver name:@"calendar" object:nil];
 }
 
 - (void)handleSwipeFrom:(UISwipeGestureRecognizer *)gesture

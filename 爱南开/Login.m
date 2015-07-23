@@ -64,21 +64,6 @@
 }
 
 
-+ (BOOL)fetchSomePage
-{
-    NSError *error = nil;
-    NSStringEncoding gbkEncoding = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
-    NSString *temp = [NSString stringWithContentsOfURL:[NSURL URLWithString:@"http://222.30.32.10/xsxk/selectMianInitAction.do"] encoding:gbkEncoding error:&error];
-    if ([temp rangeOfString:@"选课系统关闭"].length>0) {
-        NSDictionary *info = [[NSDictionary alloc] initWithObjectsAndKeys:@"选课系统关闭",@"error",nil];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"StopTimer"
-                                                            object:self
-                                                          userInfo:info];
-        return NO;
-    }
-    return YES;
-}
-
 + (void)logout:(NSManagedObjectContext *)managedObjectContext {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults removeObjectForKey:@"userLoggedIn"];
@@ -86,6 +71,7 @@
     [FetchHistoryCourse deleteHistoryData:managedObjectContext];
     [FetchCurrentCourse deleteCurrentData:managedObjectContext];
 }
+
 
 + (BOOL)updateUserLoggedInFlag:(NSString *)studentID
 {

@@ -104,7 +104,6 @@
                            options:(trueOrFalse? UIViewAnimationOptionTransitionFlipFromLeft:UIViewAnimationOptionTransitionFlipFromRight)
                         animations:^{
                             self.imageView.image = [self.imageDatas[imageID] objectForKey:@"image"];
-                            NSLog(@"%ld",(long)imageID);
                         }
                         completion:nil];
     });

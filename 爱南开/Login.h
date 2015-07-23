@@ -19,8 +19,6 @@
 
 + (void)signIn:(NSDictionary *)parameters withManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 
-+ (BOOL)fetchSomePage;
-
 + (void)logout:(NSManagedObjectContext *)managedObjectContext;
 
 + (BOOL)updateUserLoggedInFlag:(NSString *)studentID;
